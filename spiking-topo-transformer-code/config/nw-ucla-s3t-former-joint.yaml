@@ -1,0 +1,110 @@
+# NW-UCLA — joint (20 joints, num_person=1)
+# Edit data_path / work_dir paths for your machine.
+
+base_lr: 0.01
+batch_size: 64
+test_batch_size: 128
+num_epoch: 250
+num_worker: 16
+device: [0]
+pin_memory: true
+
+optimizer: AdamW
+optimizer_args:
+  adamw_lr: 0.0003
+  adamw_weight_decay: 0.0005
+  betas: [0.9, 0.999]
+
+use_cosine_annealing: true
+min_lr: 1.0e-06
+step: [110, 170, 230]
+lr_decay_rate: 0.1
+
+eval_interval: 5
+save_interval: 1
+use_amp: true
+max_grad_norm: 0.5
+
+model: model.spiking_ssm_topo_transformer.SpikingStateSpaceTopologyTransformer
+model_args:
+  num_nodes: 20
+  in_channels: 3
+  embed_dim: 384
+  depth: 6
+  num_heads: 8
+  mlp_ratio: 4.0
+  num_classes: 10
+  v_threshold: 0.5
+  dropout: 0.25
+  use_topology_bias: true
+  topology_alpha: 0.5
+  num_person: 1
+  use_temporal_gradient_qkv: true
+
+feeder: feeders.feeder_ucla.Feeder
+
+train_feeder_args:
+  data_path: /path/to/NW-UCLA
+  label_path: null
+  p_interval: [0.5, 1]
+  split: train
+  window_size: 16
+  normalization: False
+  debug: False
+  use_mmap: False
+  bone: False
+  vel: False
+  random_choose: False
+  random_shift: False
+  random_move: False
+  random_rot: False
+  random_noise: False
+  noise_std: 0.02
+  random_scale: False
+  scale_range: [0.9, 1.1]
+  random_mask: False
+  mask_ratio: 0.2
+  temporal_warp: False
+  warp_sigma: 0.2
+  warp_knot: 5
+  random_flip: False
+  flip_prob: 0.25
+  gaussian_blur: False
+  blur_kernel_size: 3
+  blur_sigma: 1.2
+  random_dropout_frames: False
+  dropout_ratio: 0.25
+
+test_feeder_args:
+  data_path: /path/to/NW-UCLA
+  label_path: null
+  p_interval: [0.95]
+  split: val
+  window_size: 16
+  normalization: False
+  debug: False
+  use_mmap: False
+  bone: False
+  vel: False
+  random_choose: False
+  random_shift: False
+  random_move: False
+  random_rot: False
+  random_noise: False
+  noise_std: 0.02
+  random_scale: False
+  scale_range: [0.9, 1.1]
+  random_mask: False
+  mask_ratio: 0.1
+  temporal_warp: False
+  warp_sigma: 0.2
+  warp_knot: 4
+  random_flip: False
+  flip_prob: 0.5
+  gaussian_blur: False
+  blur_kernel_size: 3
+  blur_sigma: 1.0
+  random_dropout_frames: False
+  dropout_ratio: 0.1
+
+# Suggested: python train.py --config config/nw-ucla-s3t-former-joint.yaml --work-dir logs/nw-ucla-s3t-joint

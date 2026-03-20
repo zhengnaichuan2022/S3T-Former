@@ -1,0 +1,8 @@
+torch>=1.8.0
+torchvision>=0.9.0
+spikingjelly>=0.0.0.0.15
+numpy>=1.19.0
+pyyaml>=5.4.0
+tqdm>=4.60.0
+scipy>=1.5.0
+
