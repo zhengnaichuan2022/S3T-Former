@@ -1,0 +1,6 @@
+# Table 4: S3-Engine with a fixed decay of 0.5, U-Readout
+# NTU RGB+D 60 X-Sub, joint stream, D=256, T=16; all other settings unchanged.
+_base_: ../nturgbd-cross-subject-s3t-former.yaml
+model_args:
+  s3_decay_mode: fixed
+  s3_fixed_decay: 0.5

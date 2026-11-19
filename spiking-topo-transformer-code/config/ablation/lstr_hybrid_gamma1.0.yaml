@@ -1,0 +1,5 @@
+# Table 5: hybrid, H=8, gamma=1.0
+# NTU RGB+D 60 X-Sub, joint stream, D=256, T=16; all other settings unchanged.
+_base_: ../nturgbd-cross-subject-s3t-former.yaml
+model_args:
+  topology_gamma: 1.0

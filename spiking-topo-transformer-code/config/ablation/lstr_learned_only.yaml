@@ -1,0 +1,5 @@
+# Table 5: learned only (A_learned alone, H=8)
+# NTU RGB+D 60 X-Sub, joint stream, D=256, T=16; all other settings unchanged.
+_base_: ../nturgbd-cross-subject-s3t-former.yaml
+model_args:
+  lstr_mode: learned

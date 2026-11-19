@@ -1,0 +1,5 @@
+# Table 3 / Table 4: w/o S3-Engine, O[t] = Q[t] * KV_out[t] (memory None, U-Readout)
+# NTU RGB+D 60 X-Sub, joint stream, D=256, T=16; all other settings unchanged.
+_base_: ../nturgbd-cross-subject-s3t-former.yaml
+model_args:
+  use_s3_engine: false

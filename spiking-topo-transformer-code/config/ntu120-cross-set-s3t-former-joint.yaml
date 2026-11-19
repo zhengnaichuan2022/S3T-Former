@@ -1,110 +1,59 @@
-# NTU RGB+D 120 Cross-Set — joint
-# Edit data_path / work_dir paths for your machine.
-
-base_lr: 0.01
-batch_size: 64
-test_batch_size: 128
-num_epoch: 250
-num_worker: 16
-device: [0]
-pin_memory: true
-
-optimizer: AdamW
-optimizer_args:
-  adamw_lr: 0.0003
-  adamw_weight_decay: 0.0005
-  betas: [0.9, 0.999]
-
-use_cosine_annealing: true
-min_lr: 1.0e-06
-step: [110, 170, 230]
-lr_decay_rate: 0.1
-
-eval_interval: 5
-save_interval: 1
-use_amp: true
-max_grad_norm: 0.5
+# NTU RGB+D 120 X-Set, joint stream, D=384, T=16
+# One of the four streams of the "S3T-Former (D=384, Ens.)" row in Table 1.
+# Hyperparameters follow Sec. 4.2 of the paper.
 
 model: model.spiking_ssm_topo_transformer.SpikingStateSpaceTopologyTransformer
 model_args:
   num_nodes: 25
-  in_channels: 3
-  embed_dim: 384
-  depth: 6
-  num_heads: 8
-  mlp_ratio: 4.0
-  num_classes: 120
-  v_threshold: 0.5
-  dropout: 0.25
-  use_topology_bias: true
-  topology_alpha: 0.5
   num_person: 2
+  in_channels: 3
+  num_classes: 120
+  embed_dim: 384            # D
+  depth: 6                  # L S3T Blocks
+  num_heads: 8              # H routing heads
+  mlp_ratio: 4.0
+  dropout: 0.25             # classifier dropout
+  v_threshold: 0.5          # LIF firing threshold U_th
+  leak: 0.5                 # LIF leakage factor tau in Eq. (1)
+  surrogate_alpha: 2.0      # ATan surrogate shape parameter
+  backend: auto             # cupy on CUDA if available, else torch
+  topology_gamma: 0.5       # gamma in Eq. (8)
+  use_mase: true
   use_temporal_gradient_qkv: true
+  atg_alpha_init: 0.8       # initial sigmoid(a) of Soft-ATG
+  lstr_mode: hybrid         # hybrid | learned | physical | identity
+  use_s3_engine: true
+  s3_decay_mode: learnable  # learnable | fixed
+  s3_fixed_decay: 0.5
+  readout: u_readout        # u_readout | spike_count
 
 feeder: feeders.feeder_ntus.Feeder
-
 train_feeder_args:
-  data_path: /path/to/your/data/NTU120_CSet.npz
-  label_path: null
-  p_interval: [0.5, 1]
+  data_path: /path/to/data/NTU120_CSet.npz
   split: train
-  window_size: 16
-  normalization: False
-  debug: False
-  use_mmap: True
-  bone: False
-  vel: False
-  random_choose: False
-  random_shift: False
-  random_move: False
-  random_rot: False
-  random_noise: False
-  noise_std: 0.02
-  random_scale: False
-  scale_range: [0.9, 1.1]
-  random_mask: False
-  mask_ratio: 0.2
-  temporal_warp: False
-  warp_sigma: 0.2
-  warp_knot: 5
-  random_flip: False
-  flip_prob: 0.25
-  gaussian_blur: False
-  blur_kernel_size: 3
-  blur_sigma: 1.2
-  random_dropout_frames: False
-  dropout_ratio: 0.25
-
+  window_size: 16            # T
+  bone: false
+  vel: false
+  use_mmap: true
 test_feeder_args:
-  data_path: /path/to/your/data/NTU120_CSet.npz
-  label_path: null
-  p_interval: [0.95]
+  data_path: /path/to/data/NTU120_CSet.npz
   split: test
   window_size: 16
-  normalization: False
-  debug: False
-  use_mmap: False
-  bone: False
-  vel: False
-  random_choose: False
-  random_shift: False
-  random_move: False
-  random_rot: False
-  random_noise: False
-  noise_std: 0.02
-  random_scale: False
-  scale_range: [0.9, 1.1]
-  random_mask: False
-  mask_ratio: 0.1
-  temporal_warp: False
-  warp_sigma: 0.2
-  warp_knot: 4
-  random_flip: False
-  flip_prob: 0.5
-  gaussian_blur: False
-  blur_kernel_size: 3
-  blur_sigma: 1.0
-  random_dropout_frames: False
-  dropout_ratio: 0.1
+  bone: false
+  vel: false
+  use_mmap: false
 
-# Suggested: python train.py --config config/ntu120-cross-set-s3t-former-joint.yaml --work-dir logs/ntu120-cset-s3t-joint
+num_epoch: 250
+batch_size: 64              # total batch size
+test_batch_size: 128
+base_lr: 0.01               # AdamW
+min_lr: 1.0e-5              # end of cosine annealing
+warmup_epochs: 10           # linear warmup
+weight_decay: 0.0005
+betas: [0.9, 0.999]
+use_amp: true
+max_grad_norm: null
+eval_interval: 5
+device: [0, 1, 2, 3]        # four GPUs as in the paper; use [0] for a single GPU
+num_worker: 8
+pin_memory: true
