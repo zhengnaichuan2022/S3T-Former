@@ -1,13 +1,13 @@
-# S3T-Former: A Purely Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition
+# S3T-Former: A Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition
 
 **Official implementation** of:
 
-> **S3T-Former: A Purely Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition**  
+> **S3T-Former: A Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition**  
 > [**arXiv:2603.18062**](https://arxiv.org/abs/2603.18062)
 
 **Authors:** Naichuan Zheng, Hailun Xia, Zepeng Sun, Weiyi Li, Yujia Wang
 
-**Abstract (short):** S3T-Former targets skeleton-based action recognition with a **purely spike-driven** design: native LIF neurons, **state-space** structure for long-range temporal modeling, and **topology-aware** attention that propagates information along the skeleton graph. This codebase supports NTU RGB+D 60/120 and NW-UCLA with multi-stream (joint / bone / motion) configs.
+**Abstract (short):** S3T-Former targets skeleton-based action recognition with a **spike-driven** design: native LIF neurons, **state-space** structure for long-range temporal modeling, and **topology-aware** attention that propagates information along the skeleton graph. This codebase supports NTU RGB+D 60/120 and NW-UCLA with multi-stream (joint / bone / motion) configs.
 
 <p align="center">
   <img src="spiking-topo-transformer-code/S3-former.png" alt="S3T-Former overview" width="85%">
@@ -184,7 +184,7 @@ If you use this code or the method in your research, please cite the **arXiv** p
 
 ```bibtex
 @article{zheng2026s3tformer,
-  title={S3T-Former: A Purely Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition},
+  title={S3T-Former: A Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition},
   author={Zheng, Naichuan and Xia, Hailun and Sun, Zepeng and Li, Weiyi and Wang, Yujia},
   journal={arXiv preprint arXiv:2603.18062},
   year={2026}
