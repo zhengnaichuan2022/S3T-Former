@@ -5,7 +5,7 @@
 > **S3T-Former: A Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition**  
 > Preprint
 
-**Authors:** Naichuan Zheng, Hailun Xia, Liwei Bao, Zepeng Sun, Weiyi Li, Peiying Ouyang, Zhendong Yuan
+**Authors:** Naichuan Zheng, Hailun Xia, Liwei Bao, Zepeng Sun, Weiyi Li
 
 **Abstract (short):** S3T-Former targets skeleton-based action recognition with a **spike-driven** design: native LIF neurons, **state-space** structure for long-range temporal modeling, and **topology-aware** attention that propagates information along the skeleton graph. This codebase supports NTU RGB+D 60/120 and NW-UCLA with multi-stream (joint / bone / motion) configs.
 
@@ -185,7 +185,7 @@ If you use this code or the method in your research, please cite:
 ```bibtex
 @misc{zheng2026s3tformer,
   title={S3T-Former: A Spike-Driven State-Space Topology Transformer for Skeleton Action Recognition},
-  author={Zheng, Naichuan and Xia, Hailun and Bao, Liwei and Sun, Zepeng and Li, Weiyi and Ouyang, Peiying and Yuan, Zhendong},
+  author={Zheng, Naichuan and Xia, Hailun and Bao, Liwei and Sun, Zepeng and Li, Weiyi},
   note={Preprint},
   year={2026}
 }
